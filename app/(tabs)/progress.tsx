@@ -2,47 +2,40 @@ import { OaaCard } from '@/components/OaaCard';
 import { OaaText } from '@/components/OaaText';
 import { Screen } from '@/components/Screen';
 
-export default function HomeScreen() {
+export default function ProgressScreen() {
   return (
     <Screen className="pt-6">
       <OaaText
         variant="caption"
         className="text-oaa-primary"
       >
-        ADVANCED NURTURING SYSTEM
+        OAA SYSTEM
       </OaaText>
 
       <OaaText
         variant="title"
         className="mt-2"
       >
-        OAA
+        Progress
       </OaaText>
 
       <OaaText
         variant="muted"
         className="mt-1"
       >
-        Overall Ability Assessment
+        Ability history and statistics
       </OaaText>
 
-      <OaaCard className="mt-8">
+      <OaaCard className="mt-7">
         <OaaText variant="section">
-          OVERALL ABILITY
+          History
         </OaaText>
 
         <OaaText
-          variant="display"
-          className="mt-4"
+          variant="muted"
+          className="mt-3"
         >
-          --
-        </OaaText>
-
-        <OaaText
-          variant="caption"
-          className="mt-2"
-        >
-          NOT EVALUATED
+          No historical data available yet.
         </OaaText>
       </OaaCard>
     </Screen>
