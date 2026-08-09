@@ -1,8 +1,10 @@
+import { Ionicons } from '@expo/vector-icons';
 import type { ReactNode } from 'react';
 import {
-    ActivityIndicator,
-    Pressable,
-    type PressableProps,
+  ActivityIndicator,
+  Pressable,
+  type PressableProps,
+  View,
 } from 'react-native';
 
 import { OaaText } from './OaaText';
@@ -12,49 +14,105 @@ interface OaaButtonProps
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'danger';
   loading?: boolean;
+  className?: string;
 }
-
-const variants = {
-  primary: 'border border-oaa-primary bg-oaa-primary',
-  secondary: 'border border-oaa-border bg-oaa-surface',
-  danger: 'border border-oaa-danger bg-transparent',
-};
 
 export function OaaButton({
   children,
   variant = 'primary',
   loading = false,
   disabled,
+  className = '',
   ...props
 }: OaaButtonProps) {
   const isDisabled = disabled || loading;
 
+  if (variant === 'primary') {
+    return (
+      <Pressable
+        disabled={isDisabled}
+        className={`
+          overflow-hidden
+          border
+          border-oaa-primary
+          bg-oaa-primary
+          ${isDisabled ? 'opacity-50' : 'active:opacity-80'}
+          ${className}
+        `}
+        {...props}
+      >
+        <View className="min-h-16 flex-row items-stretch">
+          <View className="flex-1 items-center justify-center px-5">
+            {loading ? (
+              <ActivityIndicator color="#071018" />
+            ) : (
+              <OaaText
+                className="
+                  text-base
+                  font-bold
+                  tracking-[2px]
+                  text-[#071018]
+                "
+              >
+                {children}
+              </OaaText>
+            )}
+          </View>
+
+          {!loading && (
+            <View
+              className="
+                w-16
+                items-center
+                justify-center
+                border-l
+                border-[#071018]/20
+              "
+            >
+              <Ionicons
+                name="chevron-forward"
+                size={22}
+                color="#071018"
+              />
+            </View>
+          )}
+        </View>
+      </Pressable>
+    );
+  }
+
   return (
     <Pressable
-      className={`min-h-12 items-center justify-center px-5 ${
-        variants[variant]
-      } ${isDisabled ? 'opacity-50' : ''}`}
       disabled={isDisabled}
+      className={`
+        min-h-14
+        items-center
+        justify-center
+        border
+        px-5
+        ${
+          variant === 'danger'
+            ? 'border-oaa-danger bg-transparent'
+            : 'border-oaa-border bg-oaa-surface'
+        }
+        ${isDisabled ? 'opacity-50' : 'active:opacity-70'}
+        ${className}
+      `}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator
-          color={
-            variant === 'primary'
-              ? '#070B10'
-              : '#F4F8FB'
-          }
-        />
+        <ActivityIndicator color="#F4F8FB" />
       ) : (
         <OaaText
-          variant="caption"
-          className={
-            variant === 'primary'
-              ? 'font-semibold text-oaa-background'
-              : variant === 'danger'
-                ? 'font-semibold text-oaa-danger'
-                : 'font-semibold text-oaa-text'
-          }
+          className={`
+            font-bold
+            tracking-[2px]
+            ${
+              variant === 'danger'
+                ? 'text-oaa-danger'
+                : 'text-oaa-text'
+            }
+          `}
         >
           {children}
         </OaaText>

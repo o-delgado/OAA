@@ -515,13 +515,13 @@ The UI must be designed mobile-first.
 
 ### Repository
 
-- [ ] Create initial README
-- [ ] Connect local project to GitHub
-- [ ] Review `.gitignore`
-- [ ] Run lint successfully
-- [ ] Test complete foundation on physical iPhone
-- [ ] Create first commit
-- [ ] Push v0.1 foundation to GitHub
+- [x] Create initial README
+- [x] Connect local project to GitHub
+- [x] Review `.gitignore`
+- [x] Run lint successfully
+- [x] Test complete foundation on physical iPhone
+- [x] Create first commit
+- [x] Push v0.1 foundation to GitHub
 
 ### Definition of Done
 
@@ -541,32 +541,32 @@ The UI must be designed mobile-first.
 
 ### Firebase
 
-- [ ] Create Firebase project
-- [ ] Configure Firebase SDK
-- [ ] Configure environment variables
-- [ ] Configure Firebase Authentication
-- [ ] Configure Firestore
+- [x] Create Firebase project
+- [x] Configure Firebase SDK
+- [x] Configure environment variables
+- [x] Configure Firebase Authentication
+- [x] Configure Firestore
 
 ### Authentication
 
-- [ ] Create authentication layout
-- [ ] Create registration screen
-- [ ] Create login screen
-- [ ] Add email/password registration
-- [ ] Add email/password login
-- [ ] Add logout
-- [ ] Add persistent sessions
-- [ ] Add authentication loading state
-- [ ] Add understandable authentication errors
+- [x] Create authentication layout
+- [x] Create registration screen
+- [x] Create login screen
+- [x] Add email/password registration
+- [x] Add email/password login
+- [x] Add logout
+- [x] Add persistent sessions
+- [x] Add authentication loading state
+- [x] Add understandable authentication errors
 
 ### Users
 
-- [ ] Create Firestore user document
-- [ ] Store account creation date
-- [ ] Add roles:
-  - [ ] user
-  - [ ] admin
-- [ ] Detect current user role
+- [x] Create Firestore user document
+- [x] Store account creation date
+- [x] Add roles:
+  - [x] user
+  - [x] admin
+- [x] Detect current user role
 
 ### Route Protection
 
