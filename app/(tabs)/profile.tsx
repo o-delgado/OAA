@@ -1,9 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-
 import { OaaButton } from '@/components/OaaButton';
 import { OaaCard } from '@/components/OaaCard';
 import { OaaText } from '@/components/OaaText';
@@ -11,6 +5,11 @@ import { Screen } from '@/components/Screen';
 import { useAuth } from '@/providers/AuthProvider';
 import { logoutUser } from '@/services/authService';
 import { getProfileImageUrl } from '@/services/profileImageService';
+import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 export default function ProfileScreen() {
   const { appUser, authUser } = useAuth();
@@ -68,6 +67,7 @@ export default function ProfileScreen() {
       mounted = false;
     };
   }, [appUser?.profile.photoURL]);
+
 
   async function handleLogout() {
     try {
@@ -237,8 +237,8 @@ function InfoRow({
   return (
     <View
       className={`flex-row items-center justify-between py-4 ${last
-          ? ''
-          : 'border-b border-oaa-border'
+        ? ''
+        : 'border-b border-oaa-border'
         }`}
     >
       <OaaText variant="caption">

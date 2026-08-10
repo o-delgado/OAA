@@ -652,37 +652,37 @@ The UI must be designed mobile-first.
 
 ### Models
 
-- [ ] Create OAA data model
-- [ ] Create ability score model
-- [ ] Create rank model
-- [ ] Create assessment result model
-- [ ] Create score source model
-- [ ] Create verification status model
+- [x] Create OAA data model
+- [x] Create ability score model
+- [x] Create rank model
+- [x] Create assessment result model
+- [x] Create score source model
+- [x] Create verification status model
 
 ### Scoring
 
-- [ ] Create rank conversion utility
-- [ ] Implement Overall Ability formula
-- [ ] Preserve decimal precision
-- [ ] Define score normalization rules
-- [ ] Define minimum-data requirements
-- [ ] Implement "Insufficient Data"
-- [ ] Implement "Not Evaluated"
-- [ ] Implement "Pending Verification"
+- [x] Create rank conversion utility
+- [x] Implement Overall Ability formula
+- [x] Preserve decimal precision
+- [x] Define score normalization rules
+- [x] Define minimum-data requirements
+- [x] Implement "Insufficient Data"
+- [x] Implement "Not Evaluated"
+- [x] Implement "Pending Verification"
 
 ### History
 
-- [ ] Create OAA history model
-- [ ] Create OAA snapshot model
-- [ ] Create score recalculation service
+- [x] Create OAA history model
+- [x] Create OAA snapshot model
+- [x] Create score recalculation service
 
 ### Testing
 
-- [ ] Add scoring unit tests
-- [ ] Test every rank boundary
-- [ ] Test Overall Ability formula
-- [ ] Test insufficient-data scenarios
-- [ ] Test decimal precision
+- [x] Add scoring unit tests
+- [x] Test every rank boundary
+- [x] Test Overall Ability formula
+- [x] Test insufficient-data scenarios
+- [x] Test decimal precision
 
 ### Definition of Done
 

@@ -4,10 +4,15 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
+
   "deno.enablePaths": [
-    "supabase/functions"
+    "./supabase/functions"
   ],
+
+  "deno.importMap": "./supabase/functions/deno.json",
+
   "deno.lint": true,
+
   "deno.unstable": [
     "bare-node-builtins",
     "byonm",
@@ -22,8 +27,5 @@
     "fs",
     "http",
     "net"
-  ],
-  "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  ]
 }
