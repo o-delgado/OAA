@@ -1,33 +1,33 @@
+import type { User } from '@supabase/supabase-js';
 import {
-    onAuthStateChanged,
-    type User,
-} from 'firebase/auth';
-import {
-    createContext,
-    type PropsWithChildren,
-    useContext,
-    useEffect,
-    useState,
+  createContext,
+  type PropsWithChildren,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 
-import { auth } from '@/lib/firebase';
+import { supabase } from '@/lib/supabase';
 import { getAppUser } from '@/services/authService';
 import type { AppUser } from '@/types/user';
 
 interface AuthContextValue {
-  firebaseUser: User | null;
+  authUser: User | null;
   appUser: AppUser | null;
   loading: boolean;
+  refreshAppUser: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(
-  undefined,
-);
+const AuthContext =
+  createContext<AuthContextValue | undefined>(
+    undefined,
+  );
 
 export function AuthProvider({
   children,
 }: PropsWithChildren) {
-  const [firebaseUser, setFirebaseUser] =
+  const [authUser, setAuthUser] =
     useState<User | null>(null);
 
   const [appUser, setAppUser] =
@@ -35,32 +35,111 @@ export function AuthProvider({
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      async (user) => {
-        setFirebaseUser(user);
+  const loadAppUser = useCallback(
+    async (user: User | null) => {
+      if (!user) {
+        setAppUser(null);
+        return;
+      }
 
-        if (user) {
-          const profile = await getAppUser(user.uid);
-          setAppUser(profile);
-        } else {
-          setAppUser(null);
+      const profile = await getAppUser(user.id);
+      setAppUser(profile);
+    },
+    [],
+  );
+
+  const refreshAppUser = useCallback(async () => {
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
+    if (error) {
+      throw error;
+    }
+
+    await loadAppUser(session?.user ?? null);
+  }, [loadAppUser]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function initializeSession() {
+      try {
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+
+        if (error) {
+          throw error;
         }
 
-        setLoading(false);
+        if (!mounted) {
+          return;
+        }
+
+        const user = session?.user ?? null;
+
+        setAuthUser(user);
+
+        try {
+          await loadAppUser(user);
+        } catch (error) {
+          console.error(
+            'Unable to load user profile:',
+            error,
+          );
+
+          if (mounted) {
+            setAppUser(null);
+          }
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void initializeSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        const user = session?.user ?? null;
+
+        setAuthUser(user);
+
+        void loadAppUser(user)
+          .catch((error) => {
+            console.error(
+              'Unable to refresh user profile:',
+              error,
+            );
+
+            setAppUser(null);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       },
     );
 
-    return unsubscribe;
-  }, []);
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [loadAppUser]);
 
   return (
     <AuthContext.Provider
       value={{
-        firebaseUser,
+        authUser,
         appUser,
         loading,
+        refreshAppUser,
       }}
     >
       {children}

@@ -539,13 +539,16 @@ The UI must be designed mobile-first.
 
 ## v0.2 — Authentication & Roles
 
-### Firebase
+### Supabase
 
-- [x] Create Firebase project
-- [x] Configure Firebase SDK
+- [x] Create Supabase project
+- [x] Configure Supabase SDK
 - [x] Configure environment variables
-- [x] Configure Firebase Authentication
-- [x] Configure Firestore
+- [x] Configure Supabase Authentication
+- [x] Configure PostgreSQL database
+- [x] Configure profiles table
+- [x] Configure Row Level Security (RLS)
+- [x] Configure authentication redirect URL
 
 ### Authentication
 
@@ -554,6 +557,7 @@ The UI must be designed mobile-first.
 - [x] Create login screen
 - [x] Add email/password registration
 - [x] Add email/password login
+- [x] Add email verification flow
 - [x] Add logout
 - [x] Add persistent sessions
 - [x] Add authentication loading state
@@ -561,24 +565,26 @@ The UI must be designed mobile-first.
 
 ### Users
 
-- [x] Create Firestore user document
+- [x] Create Supabase profile record
 - [x] Store account creation date
 - [x] Add roles:
   - [x] user
   - [x] admin
 - [x] Detect current user role
+- [x] Load application profile from Supabase
 
 ### Route Protection
 
-- [ ] Protect authenticated routes
-- [ ] Protect admin routes
-- [ ] Prevent unauthenticated users from accessing OAA
-- [ ] Prevent normal users from accessing admin features
+- [x] Protect authenticated routes
+- [x] Protect admin routes
+- [x] Prevent unauthenticated users from accessing OAA
+- [x] Prevent normal users from accessing admin features
 
 ### Definition of Done
 
 - New users can register
 - Existing users can log in
+- Email verification works
 - Sessions persist after restarting the app
 - Users can log out
 - User and admin roles are correctly detected
@@ -589,26 +595,56 @@ The UI must be designed mobile-first.
 
 ## v0.3 — User Profile
 
-- [ ] Create profile data model
-- [ ] Add display name
-- [ ] Add profile picture
-- [ ] Add optional personal information required for assessments
-- [ ] Create profile screen
-- [ ] Create edit profile screen
-- [ ] Save profile to Firestore
-- [ ] Upload profile image
-- [ ] Add account settings
-- [ ] Add delete account workflow
-- [ ] Add loading states
-- [ ] Add error states
+### Profile Data
+
+- [x] Create profile data model
+- [x] Add display name
+- [x] Add profile picture
+- [x] Add optional personal information required for assessments
+- [x] Add birth date
+- [x] Add gender
+- [x] Add school
+- [x] Add grade level
+- [x] Add height
+- [x] Add weight
+
+### Profile Interface
+
+- [x] Create profile screen
+- [x] Create edit profile screen
+- [x] Display current profile information
+- [x] Display current profile picture
+- [x] Add profile image picker
+- [x] Add profile editing validation
+
+### Supabase
+
+- [x] Store profile in Supabase PostgreSQL
+- [x] Update profile data
+- [x] Create profile image Storage bucket
+- [x] Upload profile image
+- [x] Store profile image path
+- [x] Load private profile images with signed URLs
+- [x] Configure profile database permissions
+- [x] Configure profile Storage policies
+
+### Remaining
+
+- [x] Add account settings
+- [x] Add delete account workflow
+- [x] Add loading states
+- [x] Add error states
 
 ### Definition of Done
 
-- User profile is stored in Firestore
+- User profile is stored in Supabase
 - User can edit profile
 - Changes persist
 - Profile picture can be changed
+- Profile picture persists in Supabase Storage
 - Profile is displayed correctly throughout OAA
+- Account settings are available
+- User account can be deleted safely
 
 ---
 

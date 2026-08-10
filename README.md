@@ -89,7 +89,7 @@ Evaluated through areas such as:
 ## Rank System
 
 | Rank | Score |
-|------|-------|
+| ---- | ----- |
 | A+ | 96–100 |
 | A | 86–95 |
 | A- | 81–85 |
@@ -213,9 +213,98 @@ OAA is currently being developed with:
 - TypeScript
 - NativeWind
 - Tailwind CSS
-- Firebase *(planned for authentication and backend services)*
+- Supabase
+  - Authentication
+  - PostgreSQL Database
+  - Storage
+  - Row Level Security (RLS)
+
+Supabase provides the backend infrastructure for OAA, including:
+
+- User authentication
+- Persistent sessions
+- User profiles
+- User and Admin roles
+- PostgreSQL data persistence
+- Profile image storage
+- Row Level Security
+- Storage access policies
 
 Primary development and testing currently targets **iPhone / iOS**, while maintaining compatibility with Android where possible.
+
+---
+
+## Backend Architecture
+
+OAA uses **Supabase** as its backend platform.
+
+### Authentication
+
+Supabase Authentication currently handles:
+
+- Email/password registration
+- Email/password login
+- Email verification
+- Persistent sessions
+- Logout
+- Authentication state management
+
+### Database
+
+User application data is stored in Supabase PostgreSQL.
+
+The current profile model includes:
+
+- User ID
+- Email
+- Role
+- Display name
+- Profile image
+- Birth date
+- Gender
+- School
+- Grade level
+- Height
+- Weight
+- Creation timestamp
+- Update timestamp
+
+### Roles
+
+OAA currently supports:
+
+```text
+user
+admin
+```
+
+Roles are stored in the application profile and used to protect application routes and administrative functionality.
+
+### Storage
+
+Supabase Storage is used for user-uploaded files.
+
+The current implementation includes profile image storage using the:
+
+```text
+profile-images
+```
+
+bucket.
+
+Profile images are stored using user-specific paths and accessed through signed URLs.
+
+### Security
+
+Backend access is controlled using:
+
+- Supabase Authentication
+- PostgreSQL permissions
+- Row Level Security (RLS)
+- Storage policies
+- User-specific resource access
+- Protected application routes
+- Admin-only application routes
 
 ---
 
@@ -225,31 +314,78 @@ OAA is currently under active development.
 
 ### v0.1 — Foundation
 
-Current foundation includes:
+**Completed**
+
+The initial application foundation includes:
 
 - Expo project setup
 - TypeScript
 - Expo Router
 - NativeWind
+- Tailwind CSS
 - OAA design system
 - Reusable base components
 - Bottom-tab navigation
-- Initial placeholder screens
+- Main application screens
+- Project metadata
+- iOS bundle identifier
 - Physical iPhone testing
-
-The next development milestone is:
+- Git/GitHub repository setup
 
 ### v0.2 — Authentication & Roles
 
-Planned features include:
+**Completed**
 
-- Firebase integration
-- Registration
-- Login
-- Persistent sessions
-- User accounts
-- User/Admin roles
-- Protected routes
+The authentication and role system includes:
+
+- Supabase integration
+- Environment variable configuration
+- Supabase Authentication
+- PostgreSQL profile records
+- Email/password registration
+- Email/password login
+- Email verification flow
+- Persistent authentication sessions
+- Logout
+- Authentication loading states
+- Authentication error handling
+- User roles
+- Admin roles
+- Current-role detection
+- Protected authenticated routes
+- Protected Admin routes
+- Row Level Security configuration
+- Authentication redirect configuration
+
+### v0.3 — User Profile
+
+**In Development**
+
+Currently implemented:
+
+- User profile data model
+- Display name
+- Birth date
+- Gender
+- School
+- Grade level
+- Height
+- Weight
+- Profile screen
+- Edit profile screen
+- Persistent profile updates
+- Profile image selection
+- Supabase Storage integration
+- Profile image upload
+- Private profile image access through signed URLs
+- Profile loading states
+- Profile error states
+
+Remaining work includes:
+
+- Account settings
+- Account deletion workflow
+- Final profile flow testing
 
 See [`TODO.md`](./TODO.md) for the complete development roadmap.
 
@@ -276,34 +412,226 @@ The goal is to preserve the identity of the inspiration while building a functio
 
 ## Development
 
-Install dependencies:
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-Start Expo:
+### Environment Variables
+
+OAA requires Supabase environment variables.
+
+Create a local `.env` file:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_project_url
+EXPO_PUBLIC_SUPABASE_KEY=your_supabase_publishable_key
+```
+
+Do not commit the real `.env` file to the repository.
+
+Use `.env.example` to document the environment variables required by the application.
+
+### Start Expo
 
 ```bash
 npx expo start
 ```
 
-For development through Expo Go using a tunnel:
+### Start Expo with Tunnel
+
+For physical-device development through Expo Go:
 
 ```bash
 npx expo start --tunnel
 ```
 
-Run ESLint:
+### Clear Expo Cache
+
+If Metro or Expo develops cache-related problems:
+
+```bash
+npx expo start --clear
+```
+
+Or with a tunnel:
+
+```bash
+npx expo start --clear --tunnel
+```
+
+### Run ESLint
 
 ```bash
 npm run lint
 ```
 
-Run TypeScript validation:
+### Run TypeScript Validation
 
 ```bash
 npx tsc --noEmit
+```
+
+---
+
+## Development Builds
+
+OAA is configured to support Expo development builds through EAS.
+
+The project contains an `eas.json` configuration with:
+
+- Development
+- Preview
+- Production
+
+build profiles.
+
+A development build can be requested with:
+
+```bash
+eas build --profile development --platform ios
+```
+
+A valid Apple Developer configuration may be required for iOS development builds and distribution.
+
+Expo Go remains suitable for functionality that does not require unsupported native modules.
+
+---
+
+## Project Structure
+
+The project follows a modular structure centered around Expo Router.
+
+```text
+app/
+├── (auth)/
+├── (tabs)/
+├── admin/
+├── auth/
+└── profile/
+
+assets/
+
+components/
+
+constants/
+
+lib/
+└── supabase.ts
+
+providers/
+└── AuthProvider.tsx
+
+services/
+├── authService.ts
+├── profileService.ts
+└── profileImageService.ts
+
+types/
+└── user.ts
+```
+
+### `app/`
+
+Contains application routes and screens managed through Expo Router.
+
+### `components/`
+
+Contains reusable OAA interface components.
+
+### `constants/`
+
+Contains shared application and design-system constants.
+
+### `lib/`
+
+Contains infrastructure configuration such as the Supabase client.
+
+### `providers/`
+
+Contains global React providers, including authentication state management.
+
+### `services/`
+
+Contains application logic for communicating with backend services.
+
+### `types/`
+
+Contains shared TypeScript models and application types.
+
+---
+
+## Authentication Flow
+
+The current authentication flow is:
+
+```text
+Open OAA
+    ↓
+Load persisted Supabase session
+    ↓
+Authenticated?
+    ├── No → Authentication screens
+    │
+    └── Yes
+         ↓
+    Load profile
+         ↓
+    Detect role
+         ↓
+    User → Main OAA application
+    Admin → Main OAA application + Admin access
+```
+
+Application routes are protected according to the authentication state and user role.
+
+---
+
+## Profile Flow
+
+The current profile system follows:
+
+```text
+Supabase Auth User
+        ↓
+profiles table
+        ↓
+AppUser
+        ↓
+AuthProvider
+        ↓
+Profile / Application
+```
+
+When the user edits their profile:
+
+```text
+Edit Profile
+      ↓
+Validate data
+      ↓
+Update Supabase profile
+      ↓
+Refresh AppUser
+      ↓
+Updated UI
+```
+
+Profile images follow a separate Storage flow:
+
+```text
+Select Image
+      ↓
+Supabase Storage
+      ↓
+Store image path
+      ↓
+profiles.photo_url
+      ↓
+Generate signed URL
+      ↓
+Display image
 ```
 
 ---
@@ -313,9 +641,9 @@ npx tsc --noEmit
 Development is organized into incremental versions:
 
 ```text
-v0.1  Foundation
-v0.2  Authentication & Roles
-v0.3  User Profile
+v0.1  Foundation                    ✓
+v0.2  Authentication & Roles        ✓
+v0.3  User Profile                  In Development
 v0.4  OAA Core
 v0.5  Dashboard
 v0.6  Initial Assessment
@@ -325,9 +653,67 @@ v0.9  Progress & History
 v1.0  First OAA Release
 ```
 
-Post-v1.0 development is planned to expand training, administration, assessment management, and advanced statistics.
+Post-v1.0 development is planned to include:
+
+```text
+v1.1  Training System
+v1.2  Admin Verification
+v1.3  Assessment Management
+v1.4  Advanced Statistics
+```
 
 For detailed tasks and definitions of done, see [`TODO.md`](./TODO.md).
+
+---
+
+## Planned OAA Architecture
+
+As development progresses, OAA will expand beyond user accounts and profiles into the complete assessment system.
+
+The planned data flow is:
+
+```text
+User
+ ↓
+Assessment / Real-World Result
+ ↓
+Result Validation
+ ↓
+Verification
+ ↓
+Ability Score
+ ↓
+Rank
+ ↓
+Overall Ability
+ ↓
+History Snapshot
+ ↓
+Progress Analysis
+```
+
+Only valid assessment results and verified real-world results will modify official OAA scores.
+
+---
+
+## Security Principles
+
+OAA handles user-specific assessment and profile information.
+
+The backend architecture should therefore maintain:
+
+- User data isolation
+- Row Level Security
+- Restricted profile modification
+- Protected administrative operations
+- Secure Storage policies
+- User-specific uploaded files
+- Role-based authorization
+- No privileged backend credentials inside the client application
+
+Client-side route protection is intended for application navigation and user experience.
+
+Sensitive authorization must also be enforced at the database and Storage level through Supabase policies and permissions.
 
 ---
 

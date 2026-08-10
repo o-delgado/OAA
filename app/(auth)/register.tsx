@@ -2,12 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    TextInput,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  TextInput,
+  View,
 } from 'react-native';
 
 import { OaaButton } from '@/components/OaaButton';
@@ -16,18 +16,30 @@ import { Screen } from '@/components/Screen';
 import { registerUser } from '@/services/authService';
 
 export default function RegisterScreen() {
-  const [displayName, setDisplayName] = useState('');
+  const [displayName, setDisplayName] =
+    useState('');
+
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [password, setPassword] =
+    useState('');
+
   const [confirmPassword, setConfirmPassword] =
     useState('');
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
+  const [showPassword, setShowPassword] =
     useState(false);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [
+    showConfirmPassword,
+    setShowConfirmPassword,
+  ] = useState(false);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState<string | null>(null);
 
   async function handleRegister() {
     if (
@@ -46,7 +58,9 @@ export default function RegisterScreen() {
     }
 
     if (password.length < 6) {
-      setError('Password must contain at least 6 characters.');
+      setError(
+        'Password must contain at least 6 characters.',
+      );
       return;
     }
 
@@ -59,8 +73,19 @@ export default function RegisterScreen() {
         email,
         password,
       });
-    } catch {
-      setError('Unable to create account.');
+    } catch (error) {
+      console.error(
+        'Registration error:',
+        error,
+      );
+
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(
+          'Unable to create account.',
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -70,7 +95,11 @@ export default function RegisterScreen() {
     <Screen>
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={
+          Platform.OS === 'ios'
+            ? 'padding'
+            : undefined
+        }
       >
         <ScrollView
           className="flex-1"
@@ -146,7 +175,9 @@ export default function RegisterScreen() {
             onChangeText={setPassword}
             showPassword={showPassword}
             onToggle={() =>
-              setShowPassword((value) => !value)
+              setShowPassword(
+                (current) => !current,
+              )
             }
           />
 
@@ -156,7 +187,9 @@ export default function RegisterScreen() {
             onChangeText={setConfirmPassword}
             showPassword={showConfirmPassword}
             onToggle={() =>
-              setShowConfirmPassword((value) => !value)
+              setShowConfirmPassword(
+                (current) => !current,
+              )
             }
           />
 
@@ -230,7 +263,11 @@ interface FieldProps {
   value: string;
   onChangeText: (value: string) => void;
   placeholder: string;
-  keyboardType?: 'default' | 'email-address';
+
+  keyboardType?:
+    | 'default'
+    | 'email-address';
+
   autoCapitalize?: 'none' | 'sentences';
 }
 
@@ -336,7 +373,9 @@ function Requirement({
             : 'ellipse-outline'
         }
         size={16}
-        color={valid ? '#46C78A' : '#596A76'}
+        color={
+          valid ? '#46C78A' : '#596A76'
+        }
       />
 
       <OaaText

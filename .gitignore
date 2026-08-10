@@ -36,9 +36,6 @@ yarn-error.*
 # TypeScript
 *.tsbuildinfo
 
-# Expo example project
-app-example/
-
 # Generated native folders
 /ios
 /android

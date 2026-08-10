@@ -5,10 +5,17 @@ import { StatusBar } from 'expo-status-bar';
 
 import { OaaText } from '@/components/OaaText';
 import { Screen } from '@/components/Screen';
-import { AuthProvider, useAuth } from '@/providers/AuthProvider';
+import {
+  AuthProvider,
+  useAuth,
+} from '@/providers/AuthProvider';
 
 function RootNavigator() {
-  const { firebaseUser, loading } = useAuth();
+  const {
+    authUser,
+    appUser,
+    loading,
+  } = useAuth();
 
   if (loading) {
     return (
@@ -30,14 +37,31 @@ function RootNavigator() {
     );
   }
 
+  const isAuthenticated = !!authUser;
+
+  const isAdmin =
+    isAuthenticated &&
+    appUser?.role === 'admin';
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!firebaseUser}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="(auth)" />
       </Stack.Protected>
 
-      <Stack.Protected guard={!!firebaseUser}>
+      <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="profile/edit" />
+        <Stack.Screen name="profile/settings" />
+        <Stack.Screen name="profile/delete-account" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={isAdmin}>
+        <Stack.Screen name="admin" />
       </Stack.Protected>
     </Stack>
   );
