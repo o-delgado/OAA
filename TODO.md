@@ -707,25 +707,25 @@ insufficient.
 
 ## v0.5 — Dashboard
 
-- [ ] Create OAA dashboard
-- [ ] Display user identity
-- [ ] Display Overall Ability
-- [ ] Display numerical Overall score
-- [ ] Display Overall rank
-- [ ] Display Academic Ability
-- [ ] Display Physical Ability
-- [ ] Display Adaptability
-- [ ] Display Social Contribution
-- [ ] Add ability cards
-- [ ] Add OAA visualization / radar chart
-- [ ] Add recent activity section
-- [ ] Add recommended improvement area
-- [ ] Add last-updated information
-- [ ] Add new-user empty state
-- [ ] Add insufficient-data state
-- [ ] Add loading state
-- [ ] Add pull-to-refresh
-- [ ] Match established OAA visual identity
+- [x] Create OAA dashboard
+- [x] Display user identity
+- [x] Display Overall Ability
+- [x] Display numerical Overall score
+- [x] Display Overall rank
+- [x] Display Academic Ability
+- [x] Display Physical Ability
+- [x] Display Adaptability
+- [x] Display Social Contribution
+- [x] Add ability cards
+- [x] Add OAA visualization / radar chart
+- [x] Add recent activity section
+- [x] Add recommended improvement area
+- [x] Add last-updated information
+- [x] Add new-user empty state
+- [x] Add insufficient-data state
+- [x] Add loading state
+- [x] Add pull-to-refresh
+- [x] Match established OAA visual identity
 
 ### Definition of Done
 
@@ -733,7 +733,7 @@ The user can open Home and immediately understand:
 
 - Current Overall Ability
 - Current category scores
-- Current ranks
+- Current ranks 
 - Recent changes
 - Which area most needs improvement
 
